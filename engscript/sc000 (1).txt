@@ -1,0 +1,62 @@
+Sigma
+(FFFF)
+Lambda
+(FFFF)
+Clarett
+(FFFF)
+Alfred
+(FFFF)
+Brenda
+(FFFF)
+Field Marshal Lanford
+(FFFF)
+Operator
+(FFFF)
+(00FB)
+Master Gizarof,
+(FCFF)
+The subject is ready for programming.
+(FCFF)
+I will read out each item according to the procedure. Please give me your instructions.
+(FEFF)
+Set the subject's initial equipment.
+(FCFF)
+Press the Å¸ button.
+(FEFF)
+(00FB)
+1f00
+Settings have been locked in.
+(FCFF)
+Expected capabilities are as follows:
+(FEFF)
+(00FB)
+2100
+Let's start over. 
+(FEFF)
+(00FB)
+2200
+The following explanation is entirely optional.
+(FDFF)
+(00FB)
+2300
+I can provide an overview of gameplay
+(FCFF)
+to refresh your memory.
+(FDFF)
+(00FB)
+2400
+View gameplay overview?
+(FEFF)
+Finally, select the difficulty of the battle to be fought from this point onward.
+(FEFF)
+ÅEÇmÇnÇqÇlÇ`Çk
+(FEFF)
+ÅEÇgÇ`ÇqÇc
+(FEFF)
+(F4FF)
+ÇgÇ`ÇqÇc
+(F3FF)
+This makes it difficult to obtain experience.
+(FCFF)
+The enemy is also strengthened.
+(FCFF)
