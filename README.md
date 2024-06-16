@@ -57,3 +57,19 @@ Formats .bmp file to binary that can be inserted into the game.
 
 Injects the font into the game's SYSTEM.BIN file, which does not come included!! 
 >You'll have to extract your own from your game and put it in the **gamefiles/input** directory.
+
+# info
+
+## data locations (in case i die)
+
+### font
+The font is at the very beginning of the **SYSTEM.BIN** file. Since there are infinite kanji, the original Japanese font file is way longer than our English one, so we can just paste it over the old one.
+
+### scripts
+Scripts are located in the game's **SCEN.DAT** file. The same scripts are stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios. Each scenario seems to be stored in a non-uniformly sized block (which is strange considering some end in trailing zeroes which suggest "empty" space resulting from pre-determined data sizing), and I have not been able to find a pointer table that lists all script addresses. Here are some of the addresses I've gotten so far, from manually scouring the file. (Having not translated yet, not 100% sure this is accurate; I'm assuming the scenarios are in order in the file and there are no scripts that do not belong to scenarios...)
+
+- **Scenario 1:** 2490 (Little Endian: 9024)
+- **Scenario 2:** ef76 (76ef)
+- **Scenario 3:** 32bca (ca2b03)
+- **Scenario 4:** 4e940 (40e904)
+> The game stores data in Little Endian, use it when trying to search for addresses in the binaries (to find the pointer table hopefully...)
