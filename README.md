@@ -1,4 +1,16 @@
+# TODO
+
+- ~~Create English character table~~
+- ~~Convert font bmp to bpp~~
+- ~~Font insertion~~
+- **Convert English script to custom hex encoding**
+- Insert script into game file
+- Check how many chars can fit in a row
+- Check if longer script length than original breaks game (shift bits into "empty" block)
+- Create a patch!
+
 # project contents
+
 
 ## charactertables
 
