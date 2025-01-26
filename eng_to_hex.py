@@ -9,6 +9,7 @@ controlcodes = {"(F3FF)": "F3FF", "(F4FF)": "F4FF", "(FAFF)": "FAFF", "(FDFF)": 
 
 with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
     s = f.readline()
+    #s = f.readline() # skip the space character, it breaks everything and will not be used
     while s:
         kvpair = s.split("=")
         kvpair[1] = kvpair[1][:-1] #remove carriage return
@@ -26,19 +27,101 @@ with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
             twochardict[kvpair[1]] = kvpair[0]
         s = f.readline()
 
-#print(onechardict)
-print(twochardict)
+print(onechardict)
+#print(twochardict)
 #print(punctdict)
 #print(symboldict)
 
 hexstring = ""
 
 
+def eng_to_hex(s):
+    if s[-1] == "\n":
+        #print("carriage removed")
+        s = s[:-1]  # remove carriage return
+        #print(f"string len after removal is {len(s)}")
 
-with open("engscript/sc000.txt", mode="r", encoding="shift-jis") as f:
+    #print(f"String length is {len(s)}")
+    #print(f"String: {s}")
+
+    hexstring = ""
+
+    # now must go through line by two char pairs
+    i = 0
+    while i < len(s):
+        pair = s[i:i + 2]
+        # check if there is only one char left in line
+        if i + 1 == len(s):
+            #print("2nd char does not exist")
+            pair = s[i] + " "  # append space
+
+        print(f"pair is {pair}")
+        #print(f"Loop iteration is {i / 2}")
+
+        # check for symbol
+        if pair[0] in onechardict:
+            hexstring += onechardict[pair[0]]
+            i -= 1 # make iteration advance by only one character
+            print("first char is onechar")
+        elif pair[1] in onechardict:
+            hexstring = eng_to_hex(pair[0]+" ") + onechardict[pair[1]]
+        # check if control code
+        elif "(" in pair:
+            start = i + 1 if pair[1] == "(" else i
+            #print("look for control code")
+            if start+6 <= len(s) and s[start:start+6] in controlcodes:
+                print(s[start:start+6])
+                if pair[1] == '(':
+                    hexstring += eng_to_hex(pair[0] + " ")
+                    i += 5
+                else:
+                    i += 4
+                    print("is this the only 1st position (?")
+                hexstring += controlcodes[s[start:start+6]]
+
+
+        # check punctdict
+        elif pair in punctdict:
+            hexstring += punctdict[pair]
+            #print("punctuation")
+
+        # check if the next word is an entry in symbol dict
+        elif "<" in pair:
+            start = 0
+            if pair[1] == "<":
+                start = 1
+                hexstring += eng_to_hex(pair[0]+" ")
+            symbol = ""
+            end = 0
+            while s[i+start+end] != ">":
+                symbol += s[i+start+end]
+                end += 1
+
+            symbol += s[i + start + end]
+            end += 1
+
+            #print(f"symbol is {symbol}")
+            if symbol in symboldict:
+                hexstring += symboldict[symbol]
+                #print("symbol found")
+            else:
+                raise Exception("symbol not found")
+
+            i = i + start - 2 + end# increment by amount of remaining chars in the symbol text
+        elif pair in twochardict:
+            print(twochardict[pair])
+            hexstring += twochardict[pair]
+        else:
+            raise Exception("Character pair not found in table")
+        i += 2
+        bytestring = bytearray.fromhex(hexstring)
+    return hexstring
+
+
+"""with open("engscript/sc000.txt", mode="r", encoding="shift-jis") as f:
     s = f.readline()
 
-    for line in range(0,20): # while s: in production
+    while s:
         print(f"String length is {len(s)}")
         print(f"String: {s}")
 
@@ -65,6 +148,8 @@ with open("engscript/sc000.txt", mode="r", encoding="shift-jis") as f:
 
                 print(f"pair is {pair}")
                 print(f"Loop iteration is {i/2}")
+
+
 
                 # check punctdict
                 if pair in punctdict:
@@ -114,5 +199,5 @@ with open("hexscript/hexscript.bin", mode="wb") as f:
     f.write(bytestring)
     #for x in kvpair:
     #    print(x)
-    #    print(len(x))
+    #    print(len(x))"""
 

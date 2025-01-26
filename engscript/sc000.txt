@@ -1,63 +1,23 @@
-Sigma
-(FFFF)
-Lambda
-(FFFF)
-Clarett
-(FFFF)
-Alfred
-(FFFF)
-Brenda
-(FFFF)
-Field Marshal Lanford
-(FFFF)
-Operator
-(FFFF)
-(00FB)
-0100
-Master Gizarof,
-(FCFF)
-The subject is ready for programming.
-(FCFF)
-I will read out each item according to the procedure. Please give me your instructions.
-(FEFF)
-Set the subject's initial equipment.
-(FCFF)
-Press the Å¸ button.
-(FEFF)
-(00FB)
-1f00
-Settings have been locked in.
-(FCFF)
-Expected capabilities are as follows:
-(FEFF)
-(00FB)
-2100
-Let's start over. 
-(FEFF)
-(00FB)
-2200
-The following explanation is entirely optional.
-(FDFF)
-(00FB)
-2300
-I can provide an overview of gameplay
-(FCFF)
-to refresh your memory.
-(FDFF)
-(00FB)
-2400
-View gameplay overview?
-(FEFF)
-Finally, select the difficulty of the battle to be fought from this point onward.
-(FEFF)
-ÅEÇmÇnÇqÇlÇ`Çk
-(FEFF)
-ÅEÇgÇ`ÇqÇc
-(FEFF)
-(F4FF)
-ÇgÇ`ÇqÇc
-(F3FF)
-This makes it difficult to obtain experience.
-(FCFF)
-The enemy is also strengthened.
-(FCFF)
+Sigma(FFFF)
+Lambda(FFFF)
+Clarett(FFFF)
+Alfred(FFFF)
+Brenda(FFFF)
+Admiral Lanford(FFFF)
+Operator(FFFF)
+Master Gizarof, preparations for the subject's modification have been made. According to procedure, I will read out each item and ask for your instructions.(FEFF)
+Set the subject's initial equipment.(FCFF)Please press the <CIRCLE> button.(FEFF)
+The specifications for the enhancement program are complete.(FCFF)The subject's expected capabilities upon its completion are as follows:(FEFF)
+Let's start over.(FEFF)
+The choices from hereon are optional.(FDFF)It's a general strategy guide, but it could be input to the program as knowledge.(FCFF)You can review the contents here.(FDFF)Review gameplay mechanics?(FEFF)
+Finally, please set the difficulty level of the battles to come.(FEFF)
+<BULLET>Normal(FEFF)
+<BULLET>Hard(FEFF)
+In(F4FF) Hard(F3FF) difficulty, experience points will be difficult to obtain.(FCFF)The enemies are also strengthened.(FCFF)Is that okay?(FEFF)
+(FAFF)<SIGMA>ÇOÇUÇUÅAvirtual battle program launched.(FCFF)Please prepare to input.(FEFF)
+(FAFF)<SIGMA>ÇOÇUÇUÅAsetup complete.(FCFF)The bioenhancement program will launch.(FEFF)
+First let's establish the subject's final form of development.(FDFF)From the following four metals, three will be mixed in the culture solution.(FCFF)Please choose one to discard.(FEFF)
+<BULLET>Gold(FEFF)
+<BULLET>Silver(FEFF)
+<BULLET>Bronze(FEFF)
+<BULLET>Iron(FEFF)
