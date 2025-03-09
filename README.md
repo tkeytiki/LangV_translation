@@ -45,8 +45,6 @@ English scripts that have been converted into binary files by **eng_to_hex** wil
 
 ## eng_to_hex.py
 
-### WIP
-
 Converts English script files to hexidecimal/binary.
 
 ## format_bmp.py
