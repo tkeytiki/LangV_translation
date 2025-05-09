@@ -3,8 +3,8 @@
 - ~~Create English character table~~
 - ~~Convert font bmp to bpp~~
 - ~~Font insertion~~
-- **Convert English script to custom hex encoding**
-- Insert script into game file
+- ~~Convert English script to custom hex encoding~~
+- **Insert script into game file**
 - Check how many chars can fit in a row
 - Check if longer script length than original breaks game (shift bits into "empty" block)
 - Create a patch!
@@ -45,8 +45,6 @@ English scripts that have been converted into binary files by **eng_to_hex** wil
 
 ## eng_to_hex.py
 
-### WIP
-
 Converts English script files to hexidecimal/binary.
 
 ## format_bmp.py
@@ -66,9 +64,17 @@ Injects the font into the game's SYSTEM.BIN file, which does not come included!!
 The font is at the very beginning of the **SYSTEM.BIN** file. Since there are infinite kanji, the original Japanese font file is way longer than our English one, so we can just paste it over the old one.
 
 ### scripts
-Scripts are located in the game's **SCEN.DAT** file. The same scripts are stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios. Each scenario seems to be stored in a non-uniformly sized block (which is strange considering some end in trailing zeroes which suggest "empty" space resulting from pre-determined data sizing), and I have not been able to find a pointer table that lists all script addresses. Here are some of the addresses I've gotten so far, from manually scouring the file. (Having not translated yet, not 100% sure this is accurate; I'm assuming the scenarios are in order in the file and there are no scripts that do not belong to scenarios...)
+Scripts are located in the game's **SCEN.DAT** file. The same scripts are stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios. Each scenario seems to be stored in a non-uniformly sized block (which is strange considering some end in trailing zeroes which suggest "empty" space resulting from pre-determined data sizing), the offsets of which are stored in 8 byte words listed in a pointer table at the beginning of the **SCEN.DAT** file. 
 
-- **Scenario 1:** 2490 (Little Endian: 9024)
+- **Scenario 1 offsets:**
+  - **800:** beginning of scenario block
+    - adding the word at 0x0 (40) and the word at 0x7c (1AB4) gives the offset (1AF4), add this to 800 (22F4) to get the address of the pointer table containing pointers to individual dialog lines
+    - these seem to be values unique to **Scenario 1** as I tried calculating the same offset with other scenarios and it did not lead to a pointer table
+  - **962:** pointer table containing pointers to pointers in the dialog pointer table mentioned below. we shouldn't need to mess with these
+  - **22F4:** offset to the pointer table containing pointers to dialog lines. these are what we will be repointing
+    - 0x0: the 4 bytes here contain the offset at which the final dialog ends   
+    - 0x04: beginning of offsets, each pointer is stored in 2 bytes
+  - **2490:** the script begins
 - **Scenario 2:** ef76 (76ef)
 - **Scenario 3:** 32bca (ca2b03)
 - **Scenario 4:** 4e940 (40e904)
