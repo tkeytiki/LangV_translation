@@ -1,5 +1,5 @@
-.idea
-venv
+.idea/*
+venv/*
 hexscript/*
 gamefiles/output/*
 font/font.bin
