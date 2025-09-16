@@ -81,18 +81,22 @@ def eng_to_hex(s):
                 if start+6 <= len(s) and cc in controlcodes:
                     #print(s[start:start+6])
 
-                    #hexstring += controlcodes[cc]
+                    if cc == "(00FB)":
+                        hexstring += controlcodes[cc]
 
                     if pair[1] == '(':
                         i += 5
                         #print(f'i:{i}')
                         if cc == "(00FB)":
                             #print(s[i+2])
+                            hexstring += controlcodes[cc]
                             hexstring += jpnsdict[s[i+2]]
                             i += 1
                         if i + 2 < len(s):
                             try:
                                 #print("Try")
+                                #put the normal character that was in the pair with the char that was after
+                                #the control code argument
                                 hexstring += eng_to_hex(pair[0] + s[i+2])
                                 i += 1
                             except:
@@ -109,7 +113,8 @@ def eng_to_hex(s):
                             hexstring += jpnsdict[s[i+2]]
                             i += 1
                             # preserve argument for 00FB control code
-                hexstring += controlcodes[cc]
+                if cc != "(00FB)":
+                    hexstring += controlcodes[cc]
                 i += 2
                 continue
 
