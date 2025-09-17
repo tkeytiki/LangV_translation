@@ -22,6 +22,8 @@ bits = numpy.unpackbits(bytes)[::-1] #flips over both axes
 
 newbits = list()
 
+#2304 = 192 (image width) * 12 (character width)
+#16 = number of columns in the bmp
 for r in range(int(len(bits)/2304)):
     row = list()
     for x in range(16):

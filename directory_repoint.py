@@ -41,6 +41,11 @@ class Scenario:
         self.script = script
         self.script_len = len(script)
 
+
+    #it seems pointers can only be multiples of 800....
+    #judging from the Lang IV translation pointers and just mathing the first few in ours
+    #tried repointing to a non multiple and the game hung, haven't tried repointing to a multiple yet...
+    #will have to revise this function to account for that later
     def repoint_next(self):
         #if scenario is not final scenario
         if self.scenario_number < Scenario.num_scenarios - 1:
