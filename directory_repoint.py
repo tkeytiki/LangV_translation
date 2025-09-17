@@ -1,7 +1,7 @@
 
 class Scenario:
     pointers = []
-    new_pointers = [0x220]
+    new_pointers = [0x800]
     with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin:
         t = origin.read(4)
         while t != bytearray([0,0,0,0]):
@@ -51,15 +51,8 @@ class Scenario:
             self.script = bytearray.fromhex(script)
             self.script_len = len(self.script)
             end_of_data = Scenario.new_pointers[self.scenario_number] + self.data_len + self.script_len
-            #pad with zeroes to make sure the 16s place is 16
+            #pad with zeroes to make sure the 1s place is 0, possible alignment issues otherwise
             new_end = ((end_of_data - 1) // 0x10 + 1) * 0x10
             for i in range(new_end - end_of_data):
                 self.script.append(0)
-            print(end_of_data)
-            print(new_end)
             Scenario.new_pointers.append(new_end)
-
-#scen1 = Scenario(0)
-#scen2 = Scenario(1)
-#print(f'scen1: {scen1.data}')
-#scen1.repoint_next()
