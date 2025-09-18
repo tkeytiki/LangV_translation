@@ -3,8 +3,8 @@ import os
 #text dumps from the game are initially all on one line and it's very unreadable
 #this script formats the file to have line breaks after every FEFF and FFFF control code
 
-dump = "sc001.txt"
-ndump = "sc001.txt"
+dump = "system1.txt"
+ndump = "system1.txt"
 
 newstr = ""
 
@@ -24,7 +24,7 @@ with open(dump, mode="r", encoding="shift-jis") as f:
             newstr += (file[i])
             i += 1
 
-    newstr = newstr[0:len(newstr)-2] #remove final trailing \n
+    newstr = newstr[0:len(newstr)-1] #remove final trailing \n
 
 with open(ndump, mode="w", encoding="shift-jis") as n:
     n.write(newstr)
