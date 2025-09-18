@@ -1,3 +1,4 @@
+#object class to represent Scenario data blocks
 
 class Scenario:
     pointers = []

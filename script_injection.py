@@ -1,9 +1,8 @@
 from eng_to_hex import eng_to_hex as etoh
-import directory_repoint as dr
+import scenario as dr
 import math
 
-#### First Scenario Script Pointer ####
-#FSSP = 0x22f4 #seems to be unique from subsequent scenario script offset calculations
+#injects new script into data block
 
 #### Constants
 OFSP = 0x4 #offset to first script offset (the first halfword is the script length, so we just skip over it)
@@ -37,6 +36,8 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
     while trans:
         numlines += 1
         current_line = etoh(trans)
+        print(trans)
+        print(current_line)
         trans_hex += current_line
         #print(trans_hex)
         l = math.floor(len(current_line)/2) #number of bits in script line
@@ -103,30 +104,4 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
         newdata.seek(0)
         newdata.write(dr.Scenario.new_pointers[scenario.scenario_number].to_bytes(length=4, byteorder="little"))
 
-    '''
-    zero_search = origin.read(32)
-    data = zero_search
-
-    while zero_search != bytearray(32):
-        zero_search = origin.read(32)
-        data += zero_search
-
-    end_of_data = origin.tell()
-
-    # remove trailing 00 from data
-
-    print(data.hex().rstrip('0'))
-    data = data.hex().rstrip('0')
-    if len(data) % 2 != 0:
-        data += '0' # add a 0 if it results in the final byte being split in half
-    data = bytearray.fromhex(data)
-    print(data)
-    print(f'new script len: {hex(new_script_len)}')
-    print(f'length diff: {new_script_len - original_script_len}')
-
-    new.seek(scenario.script_pointer + new_script_len)
-    new.write(data)
-    '''
-
-    #oops, script length needs to include the length of the pointer offset table itself
 
