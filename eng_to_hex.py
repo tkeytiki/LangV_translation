@@ -18,6 +18,7 @@ with open("charactertables\\langvjapanese.tbl", mode="r", encoding="shift_JIS") 
 
 with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
     s = f.readline()
+
     #s = f.readline() # skip the space character, it breaks everything and will not be used
     while s:
         kvpair = s.split("=")
@@ -36,7 +37,7 @@ with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
             twochardict[kvpair[1]] = kvpair[0]
         s = f.readline()
 
-print(onechardict)
+#print(onechardict)
 #print(twochardict)
 #print(punctdict)
 #print(symboldict)
