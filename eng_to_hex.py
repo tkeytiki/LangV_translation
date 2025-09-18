@@ -70,17 +70,17 @@ def eng_to_hex(s):
         #print(f"Loop iteration is {i / 2}")
 
         # check for symbol
-
+        print(pair)
         if "(" in pair:
             start = i + 1 if pair[1] == "(" else i
-            #print("look for control code")
+            print("look for control code")
 
             if len(s) >= start+6: # check string size is large enough to contain control code
 
                 cc = s[start:start+6] # potential control code
-
+                print(cc)
+                print(s)
                 if start+6 <= len(s) and cc in controlcodes:
-                    #print(s[start:start+6])
 
                     if cc == "(00FB)":
                         hexstring += controlcodes[cc]
