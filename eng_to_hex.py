@@ -37,7 +37,7 @@ with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
             twochardict[kvpair[1]] = kvpair[0]
         s = f.readline()
 
-#print(onechardict)
+print(onechardict)
 #print(twochardict)
 #print(punctdict)
 #print(symboldict)
@@ -82,6 +82,7 @@ def eng_to_hex(s):
                 if start+6 <= len(s) and cc in controlcodes:
                     s = s[start + 6::]
                     i = 0
+
                     if cc == "(00FB)":
                         hexstring += controlcodes[cc]
 
@@ -95,6 +96,7 @@ def eng_to_hex(s):
                             i += 1
                         if len(s) == 0:
                             #if end of line, control code needs to be at the end
+
                             hexstring += eng_to_hex(pair[0] + " ")
                         elif cc == "(F3FF)":
                             #control code needs to be after the character to highlight it
@@ -168,7 +170,8 @@ def eng_to_hex(s):
             #print("Two char")
             hexstring += twochardict[pair]
         else:
-            raise Exception(f"Character pair {pair} not found in table")
+            e = f"Character pair {pair} not found in table"
+            raise Exception(e)
         i += 2
         bytestring = bytearray.fromhex(hexstring)
     return hexstring
