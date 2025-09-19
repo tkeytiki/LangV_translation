@@ -70,53 +70,60 @@ def eng_to_hex(s):
         #print(f"Loop iteration is {i / 2}")
 
         # check for symbol
-        print(pair)
+        #print(pair)
         if "(" in pair:
             start = i + 1 if pair[1] == "(" else i
-            print("look for control code")
+            #print("look for control code")
 
             if len(s) >= start+6: # check string size is large enough to contain control code
 
                 cc = s[start:start+6] # potential control code
-                print(cc)
-                print(s)
+                #print(s)
                 if start+6 <= len(s) and cc in controlcodes:
-
+                    s = s[start + 6::]
+                    i = 0
                     if cc == "(00FB)":
                         hexstring += controlcodes[cc]
 
                     if pair[1] == '(':
-                        i += 5
+                        #i += 5
                         #print(f'i:{i}')
                         if cc == "(00FB)":
                             #print(s[i+2])
-                            hexstring += controlcodes[cc]
-                            hexstring += jpnsdict[s[i+2]]
+                            #hexstring += controlcodes[cc]
+                            hexstring += jpnsdict[s[i]]
                             i += 1
-                        if i + 2 < len(s):
-                            try:
-                                #print("Try")
-                                #put the normal character that was in the pair with the char that was after
-                                #the control code argument
-                                hexstring += eng_to_hex(pair[0] + s[i+2])
-                                i += 1
-                            except:
-                                hexstring += eng_to_hex(pair[0] + " ")
-                                #print(f"{pair[0] + s[i+2]} pair not possible, use {pair[0]}"+" ")
-                        else:
+                        if len(s) == 0:
+                            #if end of line, control code needs to be at the end
                             hexstring += eng_to_hex(pair[0] + " ")
+                        elif cc == "(F3FF)":
+                            #control code needs to be after the character to highlight it
+                            if s[0] == " ":
+                                hexstring += eng_to_hex(pair[0]+s[0])
+                                i += 1
+                            else:
+                                hexstring += eng_to_hex(pair[0] + " ")
+                        else:
+                            try:
+                                eng_to_hex(pair[0]+s)
+                                s = pair[0] + s
+                            except:
+                                s = pair[0] + " " + s
                         # makes it to where it puts the first char with the char after the code
                         # provided there is one and it results a valid pair
                     else:
-                        i += 4
+                        #i += 4
                         if cc == "(00FB)":
                             #print(s[i+2])
-                            hexstring += jpnsdict[s[i+2]]
+                            #print(s[i])
+                            #print(i+2)
+                            hexstring += jpnsdict[s[i]]
                             i += 1
                             # preserve argument for 00FB control code
                 if cc != "(00FB)":
                     hexstring += controlcodes[cc]
-                i += 2
+                #i += 2
+
                 continue
 
         if pair[0] in onechardict:
