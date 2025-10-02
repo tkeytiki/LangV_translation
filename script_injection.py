@@ -12,7 +12,7 @@ for i in range(len(dr.Scenario.pointers)):
     scenario_list.append(dr.Scenario(i))
 
 with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
-        open("engscript\\sc000.txt", mode="r", encoding="shift-jis") as eng, open("gamefiles\\output\\SCEN.DAT", mode="wb") as new:
+        open("engscript\\scen\\sc000.txt", mode="r", encoding="shift-jis") as eng, open("gamefiles\\output\\SCEN.DAT", mode="wb") as new:
 
     #copy SCEN.DAT
     new.write(origin.read())
