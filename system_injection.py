@@ -65,6 +65,7 @@ while i < len(blocks):
 #later all original pointers will be overwritten
 i = len(new_mp_table)
 print(i)
+original_data_start = int.from_bytes(mp_table[i-1], byteorder="little") + mp_start
 
 total_len = 0
 for b in blocks:
@@ -76,7 +77,7 @@ original_len = int.from_bytes(mp_table[i-1], byteorder="little") - int.from_byte
 print(original_len)
 total_len = int.from_bytes(new_mp_table[i-1], byteorder="little") - int.from_bytes(mp_table[0], byteorder="little")
 offset_amt = total_len - original_len
-while i < len(mp_table) - 1:
+while i < len(mp_table):
     new_addr = int.from_bytes(mp_table[i], byteorder="little") + offset_amt
     new_mp_table.append(new_addr.to_bytes(length=2, byteorder="little"))
     i += 1
@@ -88,3 +89,14 @@ print(len(new_mp_table))
 print(len(mp_table))
 
 print(blocks[0].print())
+
+#write everything to new SYSTEM.BIN
+#with open as ns, open old as o
+#ns.seek(mp_start)
+#ns.write(new_mp_table)
+#for b in blocks:
+#ns.write(b.offsets)
+#ns.write(bytearray.fromhex(b.lines))
+#o.seek(original_data_start)
+#original_data = o.read()
+#ns.write(original_data)
