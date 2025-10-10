@@ -1,4 +1,6 @@
 #object class to represent Scenario data blocks
+import math
+
 
 class Scenario:
     pointers = []
@@ -58,7 +60,10 @@ class Scenario:
             self.script_len = len(self.script)
             end_of_data = Scenario.new_pointers[self.scenario_number] + self.data_len + self.script_len
             #pad with zeroes to make sure the 1s place is 0, possible alignment issues otherwise
-            new_end = ((end_of_data - 1) // 0x10 + 1) * 0x10
+            #divide end_of_data to find nearest x800 multiple
+            multiple = math.ceil(end_of_data/0x800)
+            new_end = multiple*0x800
+            print(new_end)
             for i in range(new_end - end_of_data):
                 self.script.append(0)
             Scenario.new_pointers.append(new_end)
