@@ -10,7 +10,7 @@
 - ~~Complete overhaul of project, using an ASM hook instead of dual font~~
 - ~~Figure out how to skip name screen~~
 - Does the B8 char actually work as intended?
-- Finishing repointing script
+- ~~Finishing repointing script~~
 - Actually translate everything
 - Create a patch!
 
@@ -43,11 +43,13 @@ Contains all font related files.
 
 ## how to use
 
-Run **generate_system_file.py**, run **script_injection.py**, and then run **insert_hack.py**, in that order. Then use a program such as CDMage to insert the newly generated SYSTEM.BIN, SLPS_018.19, and SCEN.DAT files into your game.
+- Place the **SYSTEM.BIN**, **SCEN.DAT**, and **SLPS_18.19** files in the **gamefiles\\input\\** folder
+- Run **MAIN.py**
+- Insert the newly created files in **gamefiles\\output\\** back into the game using a software such as CDMage
 
-**Currently only the intro quiz has been translated, and the game will crash when trying to load the next scenario, as I haven't gotten around to properly repointing the data yet.**
+**Currently only the intro quiz has been translated. Other text data will appear as gibberish, including menu text.**
 
->Eventually I will condense these 3 into one file...
+>When the translation is finished I plan to make a patch...
 # info
 
 ## data locations (in case i die)
