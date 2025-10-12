@@ -4,9 +4,13 @@
 - ~~Convert font bmp to bpp~~
 - ~~Font insertion~~
 - ~~Convert English script to custom hex encoding~~
-- **Insert script into game file**
-- Check how many chars can fit in a row
-- Check if longer script length than original breaks game (shift bits into "empty" block)
+- ~~Insert script into game file~~
+- ~~Check how many chars can fit in a row~~
+- ~~Check if longer script length than original breaks game (shift bits into "empty" block)~~
+- ~~Complete overhaul of project, using an ASM hack instead of dual font~~
+- ~~Figure out how to skip name screen~~
+- Does the B8 char actually work as intended?
+- Actually translate everything
 - Create a patch!
 
 # project contents
@@ -14,9 +18,9 @@
 
 ## charactertables
 
-Contains the table files for the English dual font to be inserted and the original Japanese. Table files contain characters and their corresponding hex encodings. 
->The Japanese table is not used in my scripts but is here as a reference for anyone that might need it.
->It's needed in the translation process to extract scripts and look up the hex code for the argument to one of the control codes, which need to be preserved in the English script file.
+Contains the table files for the English font to be inserted and the original Japanese. Table files contain characters and their corresponding hex encodings. 
+After the project overhaul langvsingle.tbl is the only relevant English font table.
+>The Japanese table file is needed in the translation process to extract scripts and look up the hex code for the argument to one of the control codes, which need to be preserved in the English script file.
 
 ## engscript
 
@@ -24,38 +28,25 @@ Contains the translated English script files. Each are formatted to retain the c
 
 ## font
 
-Contains all font related files. **psx6x12dualtry.bmp** is the English dual font in bmp image format. The game's font file is not formatted as a .bmp, so we have to convert it to the game's format. 
-Running **format_bmp.py** will output a file here:
+Contains all font related files. 
 
-- **font.bin**: binary font file ready to be inserted into the game
+- **oneletterfont.bin**: binary font file ready to be inserted into the game. It only contains basic English characters and symbols, and thus there is a script in **format_bmp.py** for adding new characters to the font on an as needed basis.
 
-  >We may need to make changes to the font, as when I first loaded it into the game some characters were cut off or bleeding into each other.
-  >After making changes to the .bmp file in an image editing program, just save it and rerun **format_bmp.py**.
+  >To insert the font into your SYSTEM.BIN file, place your SYSTEM.BIN file in **gamefiles\\input\\** and run **generate_system_file.py**
 
 ## gamefiles
 
 - **input**: This is where you will put the original game files, such as SYSTEM.BIN.
-- **output**: The **inject_font.py** script will make a copy of the game file, overwrite the font, and output the new SYSTEM.BIN to this folder
+- **output**: This is where all patched game files will be generated.
 
- >This is where the original game script files and output script files will have to be as well, haven't gotten that far yet x_X
 
-## hexscript
+## how to use
 
-English scripts that have been converted into binary files by **eng_to_hex** will populate here, ready to be inserted into the game files.
+Run **generate_system_file.py**, run **script_injection.py**, and then run **insert_hack.py**, in that order. Then use a program such as CDMage to insert the newly generated SYSTEM.BIN, SLPS_018.19, and SCEN.DAT files into your game.
 
-## eng_to_hex.py
+**Currently only the intro quiz has been translated, and the game will crash when trying to load the next scenario, as I haven't gotten around to properly repointing the data yet.**
 
-Converts English script files to hexidecimal/binary.
-
-## format_bmp.py
-
-Formats .bmp file to binary that can be inserted into the game.
-
-## inject_font.py
-
-Injects the font into the game's SYSTEM.BIN file, which does not come included!! 
->You'll have to extract your own from your game and put it in the **gamefiles/input** directory.
-
+>Eventually I will condense these 3 into one file...
 # info
 
 ## data locations (in case i die)
@@ -63,8 +54,13 @@ Injects the font into the game's SYSTEM.BIN file, which does not come included!!
 ### font
 The font is at the very beginning of the **SYSTEM.BIN** file. Since there are infinite kanji, the original Japanese font file is way longer than our English one, so we can just paste it over the old one.
 
+### menu text, etc
+This is all also located in the **SYSTEM.BIN** file. The master pointer table that points to other pointer tables (which are followed by lists of text strings) is located at **0x8010**.
+
 ### scripts
-Scripts are located in the game's **SCEN.DAT** file. The same scripts are stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios. Each scenario seems to be stored in a non-uniformly sized block (which is strange considering some end in trailing zeroes which suggest "empty" space resulting from pre-determined data sizing), the offsets of which are stored in 8 byte words listed in a pointer table at the beginning of the **SCEN.DAT** file. 
+All pointers for scenario data blocks are 8 bytes long each and located at the very beginning of the **SCEN.DAT** file. When repointing these they MUST be repointed to 0x800 byte aligned addresses or the game will hang.
+
+The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios.  
 
 - **Scenario 1 offsets:**
   - **800:** beginning of scenario block
@@ -75,7 +71,11 @@ Scripts are located in the game's **SCEN.DAT** file. The same scripts are stored
     - 0x0: the 4 bytes here contain the offset at which the final dialog ends   
     - 0x04: beginning of offsets, each pointer is stored in 2 bytes
   - **2490:** the script begins
-- **Scenario 2:** ef76 (76ef)
-- **Scenario 3:** 32bca (ca2b03)
-- **Scenario 4:** 4e940 (40e904)
-> The game stores data in Little Endian, use it when trying to search for addresses in the binaries (to find the pointer table hopefully...)
+- **Scenario 2:**
+    - **pointer table:** ee46
+    - **script address:** ef76 
+- **Scenario 3:** 
+    - **script address:** 32bca 
+- **Scenario 4:** 
+    - **script address:** 4e940 
+> The game stores data in Little Endian, use Little Endian when writing pointer addresses
