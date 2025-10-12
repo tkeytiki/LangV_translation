@@ -8,6 +8,16 @@ jpnsdict = {} #to find the hex value of the bytes following 00FB
 controlcodes = {"(F3FF)": "F3FF", "(F4FF)": "F4FF", "(FAFF)": "FAFF", "(FDFF)": "FDFF", "(FEFF)": "FEFF",
                 "(FFFF)": "FFFF", "(00FB)": "00FB", "(FCFF)": "FCFF", "(00FB)": "00FB"}
 
+singlefontdict = {}
+
+with open("charactertables\\langvsingle.tbl", mode="r") as f:
+    s = f.readline()
+    while s:
+        kvpair = s.split("=")
+        kvpair[1] = kvpair[1][:-1]
+        singlefontdict[kvpair[1]] = kvpair[0]
+        s = f.readline()
+
 with open("charactertables\\langvjapanese.tbl", mode="r", encoding="shift_JIS") as f:
     s = f.readline()
     while s:
@@ -37,7 +47,7 @@ with open("charactertables\\langvdual.tbl", mode="r", encoding="UTF-8") as f:
             twochardict[kvpair[1]] = kvpair[0]
         s = f.readline()
 
-print(onechardict)
+#print(onechardict)
 #print(twochardict)
 #print(punctdict)
 #print(symboldict)
@@ -46,6 +56,40 @@ print(onechardict)
 hexstring = ""
 
 
+def eng_to_hex_single(s): #converts ascii string to the single character font encoding
+    if s[-1] == "\n":
+        s = s[:-1]  # remove carriage return
+
+    hexstring = ""
+
+    i = 0
+    while i < len(s):
+        if s[i] == "(" and len(s) >= i+6: #check for control code
+            cc_string = s[i:i+6].upper()
+            if cc_string in controlcodes:
+                print(cc_string)
+                print(hexstring)
+                print(len(hexstring))
+                if len(hexstring) % 4 != 0:
+
+                    hexstring += "B8" #make sure control codes are byte aligned
+                hexstring += controlcodes[cc_string]
+                i += 6
+                if cc_string == "(00FB)":
+                    hexstring += jpnsdict[s[i]]
+                    i += 1
+            else:
+                hexstring += singlefontdict[s[i]]
+                i += 1
+        else: #normal character
+            try:
+                hexstring += singlefontdict[s[i]]
+            except KeyError as e:
+                print(f'{s[i]} not found in font table')
+            i += 1
+    return hexstring
+
+print(eng_to_hex_single("Sigma(FFFF)"))
 def eng_to_hex(s):
     if s[-1] == "\n":
         #print("carriage removed")
