@@ -32,7 +32,7 @@ class Scenario:
                     self.script = origin.read(Scenario.pointers[self.scenario_number + 1] - self.script_pointer)
                 else:
                     self.script = origin.read()
-            else:
+            else: #temporary if to deal with unfound script pointers
                 if self.scenario_number < Scenario.num_scenarios - 1:
                     self.data_len = Scenario.pointers[self.scenario_number +1] - Scenario.pointers[self.scenario_number]
                     self.data = origin.read()
@@ -60,7 +60,7 @@ class Scenario:
             self.script_len = len(self.script)
             end_of_data = Scenario.new_pointers[self.scenario_number] + self.data_len + self.script_len
             #pad with zeroes to make sure the 1s place is 0, possible alignment issues otherwise
-            #divide end_of_data to find nearest x800 multiple
+            #divide end_of_data then round up to find nearest viable x800 multiple
             multiple = math.ceil(end_of_data/0x800)
             new_end = multiple*0x800
             print(new_end)
