@@ -1,6 +1,7 @@
-from eng_to_hex import eng_to_hex as etoh
+from eng_to_hex import eng_to_hex_single as etoh
 import scenario as dr
 import math
+from pathlib import Path
 
 #injects new script into data block
 
@@ -10,6 +11,11 @@ OFSP = 0x4 #offset to first script offset (the first halfword is the script leng
 scenario_list = []
 for i in range(len(dr.Scenario.pointers)):
     scenario_list.append(dr.Scenario(i))
+
+try:
+    Path("gamefiles\\output\\SCEN.DAT").unlink()
+except FileNotFoundError as ex:
+    print(ex)
 
 with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
         open("engscript\\scen\\sc000.txt", mode="r", encoding="shift-jis") as eng, open("gamefiles\\output\\SCEN.DAT", mode="wb") as new:
@@ -36,12 +42,14 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
     while trans:
         numlines += 1
         current_line = etoh(trans)
-        print(trans)
-        print(current_line)
+
         trans_hex += current_line
         #print(trans_hex)
-        l = math.floor(len(current_line)/2) #number of bits in script line
+        l = len(current_line)//2 #number of bytes in script line
         #print(l)
+        print(trans)
+        print(current_line)
+        print(f'length of line:{len(current_line)}')
         new_script_len += l
         new_script_len += 2 # accounts for the length in bytes of the offset being written
 
@@ -72,7 +80,11 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
 
 
     # convert script length to bytes and write
-
+    print(f'script length: {new_script_len}')
+    #check if script is word-aligned
+    if new_script_len % 4 != 0:
+        trans_hex += "0000" #pad end of script with zeros to make the next word word-aligned
+        new_script_len += 2
     new.seek(scenario.script_pointer)
     new_script_len = new_script_len.to_bytes(4, byteorder='little')
     new.write(new_script_len)
@@ -86,6 +98,7 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
 
     offset_table = new_script_len.hex() + offset_table
 
+    print(len(offset_table))
     trans_hex += post_script_data.hex()
     trans_hex = offset_table + trans_hex
     trans_hex = bytearray.fromhex(trans_hex)
@@ -102,6 +115,9 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin, \
         newdata.write(scenario.data)
         newdata.write(scenario.script)
         newdata.seek(0)
-        newdata.write(dr.Scenario.new_pointers[scenario.scenario_number].to_bytes(length=4, byteorder="little"))
+        #write new pointers to beginning of file
+        for pointer in dr.Scenario.new_pointers:
+            newdata.write(pointer.to_bytes(length=4, byteorder="little"))
+        #newdata.write(dr.Scenario.new_pointers[scenario.scenario_number].to_bytes(length=4, byteorder="little"))
 
 
