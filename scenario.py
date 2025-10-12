@@ -33,9 +33,11 @@ class Scenario:
                 else:
                     self.script = origin.read()
             else: #temporary if to deal with unfound script pointers
+                #in this instance data will contain all the original, untranslated, data block
+                origin.seek(Scenario.pointers[self.scenario_number])
                 if self.scenario_number < Scenario.num_scenarios - 1:
                     self.data_len = Scenario.pointers[self.scenario_number +1] - Scenario.pointers[self.scenario_number]
-                    self.data = origin.read()
+                    self.data = origin.read(self.data_len)
                 else:
                     self.data = origin.read()
                     self.data_len = len(self.data)
@@ -52,18 +54,19 @@ class Scenario:
     def repoint_next(self):
         #if scenario is not final scenario
         if self.scenario_number < Scenario.num_scenarios - 1:
-            #cut down trailing zeros
-            script = self.script.hex().rstrip('0')
-            if len(script) % 2 != 0:
-                script += '0'  # add a 0 if it results in the final byte being split in half
-            self.script = bytearray.fromhex(script)
-            self.script_len = len(self.script)
+            if self.script_len != 0: #if this is a translated scen
+                # cut down trailing zeros
+                script = self.script.hex().rstrip('0')
+                if len(script) % 2 != 0:
+                    script += '0'  # add a 0 if it results in the final byte being split in half
+                self.script = bytearray.fromhex(script)
+                self.script_len = len(self.script)
             end_of_data = Scenario.new_pointers[self.scenario_number] + self.data_len + self.script_len
             #pad with zeroes to make sure the 1s place is 0, possible alignment issues otherwise
             #divide end_of_data then round up to find nearest viable x800 multiple
             multiple = math.ceil(end_of_data/0x800)
             new_end = multiple*0x800
-            print(new_end)
+            #print(new_end)
             for i in range(new_end - end_of_data):
                 self.script.append(0)
             Scenario.new_pointers.append(new_end)
