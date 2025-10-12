@@ -90,15 +90,19 @@ def eng_to_hex_single(s): #converts ascii string to the single character font en
         elif s[i] == "<": #catches symbols
             embed_len = 1
             closing_bracket = s[i+embed_len]
+
             while closing_bracket != ">":
                 embed_len += 1
                 closing_bracket = s[i+embed_len]
+
             embed_len += 1
-            embed = s[i:embed_len]
+            embed = s[i:embed_len+i]
+
             try:
                 hexstring += singlefontdict[embed]
             except KeyError as e:
                 print(f'{embed} not found in font table')
+
             i += embed_len
 
         else: #normal character
@@ -109,7 +113,7 @@ def eng_to_hex_single(s): #converts ascii string to the single character font en
             i += 1
     return hexstring
 
-#print(eng_to_hex_single("<BULLET>"))
+print(eng_to_hex_single("<BULLET><BULLET>"))
 
 def eng_to_hex(s):
     if s[-1] == "\n":
