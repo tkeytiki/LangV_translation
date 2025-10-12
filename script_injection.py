@@ -22,8 +22,9 @@ except FileNotFoundError as ex:
 except PermissionError as ex:
     print(ex)
 
-i = 0
 with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin:
+    i = 0
+
     while i < num_translated_scenes:
         with open(f"engscript\\scen\\sc{i}.txt", mode="r", encoding="shift_jis") as eng:
             scenario = scenario_list[i]
