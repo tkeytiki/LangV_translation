@@ -1,5 +1,7 @@
 import numpy
 
+#remember to keep a blank empty line at the end of all font tables
+
 onechardict = {} #stores punctuation, space, etc....er, catches useless chars actually
 symboldict = {} #stores symbols, such as <X>, <SQUARE>
 punctdict = {} #for "a, ", "a. " etc
@@ -17,6 +19,7 @@ with open("charactertables\\langvsingle.tbl", mode="r") as f:
         kvpair[1] = kvpair[1][:-1]
         singlefontdict[kvpair[1]] = kvpair[0]
         s = f.readline()
+
 
 with open("charactertables\\langvjapanese.tbl", mode="r", encoding="shift_JIS") as f:
     s = f.readline()
@@ -66,21 +69,38 @@ def eng_to_hex_single(s): #converts ascii string to the single character font en
     while i < len(s):
         if s[i] == "(" and len(s) >= i+6: #check for control code
             cc_string = s[i:i+6].upper()
-            if cc_string in controlcodes:
-                print(cc_string)
-                print(hexstring)
-                print(len(hexstring))
-                if len(hexstring) % 4 != 0:
 
+            if cc_string in controlcodes:
+                if len(hexstring) % 4 != 0:
                     hexstring += "B8" #make sure control codes are byte aligned
-                hexstring += controlcodes[cc_string]
+
+                try:
+                    hexstring += controlcodes[cc_string]
+                except KeyError as e:
+                    print(f'{cc_string} not found in control codes')
+
                 i += 6
-                if cc_string == "(00FB)":
+
+                if cc_string == "(00FB)": #add halfword containing voice line offset
                     hexstring += jpnsdict[s[i]]
                     i += 1
             else:
                 hexstring += singlefontdict[s[i]]
                 i += 1
+        elif s[i] == "<": #catches symbols
+            embed_len = 1
+            closing_bracket = s[i+embed_len]
+            while closing_bracket != ">":
+                embed_len += 1
+                closing_bracket = s[i+embed_len]
+            embed_len += 1
+            embed = s[i:embed_len]
+            try:
+                hexstring += singlefontdict[embed]
+            except KeyError as e:
+                print(f'{embed} not found in font table')
+            i += embed_len
+
         else: #normal character
             try:
                 hexstring += singlefontdict[s[i]]
@@ -89,7 +109,8 @@ def eng_to_hex_single(s): #converts ascii string to the single character font en
             i += 1
     return hexstring
 
-print(eng_to_hex_single("Sigma(FFFF)"))
+#print(eng_to_hex_single("<BULLET>"))
+
 def eng_to_hex(s):
     if s[-1] == "\n":
         #print("carriage removed")
