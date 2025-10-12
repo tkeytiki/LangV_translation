@@ -69,7 +69,8 @@ The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mo
 - **Scene 0 offsets:**
   - **800:** beginning of scenario block
     - adding the word at 0x0 (40) and the word at 0x7c (1AB4) gives the offset (1AF4), add this to 800 (22F4) to get the address of the pointer table containing pointers to individual dialog lines
-    - these seem to be values unique to **Scenario 1** as I tried calculating the same offset with other scenarios and it did not lead to a pointer table
+    - these seem to be values unique to this block as I tried calculating the same offset with other blocks and it did not lead to a pointer table
+    - I will probably just manually search for each pointer table
   - **962:** pointer table containing pointers to pointers in the dialog pointer table mentioned below. we shouldn't need to mess with these
   - **22F4:** offset to the pointer table containing pointers to dialog lines. these are what we will be repointing
     - 0x0: the 4 bytes here contain the offset at which the final dialog ends   
