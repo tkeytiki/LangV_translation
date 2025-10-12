@@ -62,7 +62,7 @@ All pointers for scenario data blocks are 8 bytes long each and located at the v
 
 The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mode data for the scenarios.  
 
-- **Scenario 1 offsets:**
+- **Scene 0 offsets:**
   - **800:** beginning of scenario block
     - adding the word at 0x0 (40) and the word at 0x7c (1AB4) gives the offset (1AF4), add this to 800 (22F4) to get the address of the pointer table containing pointers to individual dialog lines
     - these seem to be values unique to **Scenario 1** as I tried calculating the same offset with other scenarios and it did not lead to a pointer table
@@ -71,11 +71,12 @@ The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mo
     - 0x0: the 4 bytes here contain the offset at which the final dialog ends   
     - 0x04: beginning of offsets, each pointer is stored in 2 bytes
   - **2490:** the script begins
-- **Scenario 2:**
+- **Scene 1:**
     - **pointer table:** ee46
     - **script address:** ef76 
-- **Scenario 3:** 
+- **Scene 2:** 
+    - **pointer table:** 32ab8
     - **script address:** 32bca 
-- **Scenario 4:** 
+- **Scene 4:** 
     - **script address:** 4e940 
 > The game stores data in Little Endian, use Little Endian when writing pointer addresses
