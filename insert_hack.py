@@ -1,5 +1,7 @@
 from pathlib import Path
 
+#run this after inserting the script
+
 func_addr_mem = 0xda200 #address of new function in memory
 func_addr_f = func_addr_mem - 0xf800 #address of new function in file
 
@@ -32,10 +34,10 @@ with open("gamefiles\\output\\SLPS_018.19", mode="r+b") as newf, open("asm\\altf
     newf.write(af.read())
 
 #disables the naming screen
-with open("gamefiles\\input\\SCEN.DAT", mode="rb") as f, open("gamefiles\\output\\SCEN.DAT", mode="r+b") as newf:
+with open("gamefiles\\output\\SCEN.DAT", mode="rb") as f, open("gamefiles\\output\\SCEN.DAT", mode="r+b") as newf:
     newf.write(f.read())
     newf.seek(0x24e4)
-    newf.write(b'\x29\x34\x36\x3b\x38\x3f') #29 34 36 3B 38 3F "Rachel" test string
+    #newf.write(b'\x29\x34\x36\x3b\x38\x3f') #29 34 36 3B 38 3F "Rachel" test string
     newf.seek(name_screen_args)
     new_args = bytearray(12)
     newf.write(new_args)
