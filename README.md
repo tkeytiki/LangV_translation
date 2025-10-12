@@ -9,8 +9,9 @@
 - ~~Check if longer script length than original breaks game (shift bits into "empty" block)~~
 - ~~Complete overhaul of project, using an ASM hook instead of dual font~~
 - ~~Figure out how to skip name screen~~
-- Does the B8 char actually work as intended?
+- ~~Does the B8 char actually work as intended? Nope...~~~
 - ~~Finishing repointing script~~
+- Finish script to repoint system files
 - Actually translate everything
 - Create a patch!
 
