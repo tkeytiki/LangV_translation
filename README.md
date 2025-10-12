@@ -82,6 +82,6 @@ The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mo
 - **Scene 2:** 
     - **pointer table:** 32ab8
     - **script address:** 32bca 
-- **Scene 4:** 
+- **Scene 3:** 
     - **script address:** 4e940 
 > The game stores data in Little Endian, use Little Endian when writing pointer addresses
