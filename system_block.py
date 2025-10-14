@@ -1,13 +1,29 @@
 class Block:
 
     def __init__(self):
-        self.offsets = [bytearray(2)]
+        self.offsets = [b'\x00\x00']
         self.lines = ""
         self.offset_table_len = 2
         self.lines_len = 0
 
+    def from_untranslated_block(self, offsets, lines):
+        i = 0
+        self.offsets.pop()
+        print(f"offsetlen:{len(offsets)}")
+        while i < len(offsets):
+            self.offsets.append(offsets[i:i+2])
+            i += 2
+        #self.offsets = offsets
+        self.lines = lines
+        self.offset_table_len = len(offsets)
+        self.lines_len = len(lines)//2
+
     def add_offset(self, offset):
         self.offsets.append(offset)
+
+    def remove_last_offset(self):
+        self.offsets.pop()
+        self.offset_table_len -= 2
 
     def add_line(self, line):
         self.lines_len += len(line)//2
