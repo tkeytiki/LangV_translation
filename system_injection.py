@@ -40,6 +40,8 @@ while i < num_translated_blocks:
 
             while l:
                 blocks[i].add_line(etoh(l))
+                print(l)
+                print(etoh(l))
                 l = s.readline()
             blocks[i].remove_last_offset()
             #print(blocks[i].lines)
