@@ -94,6 +94,9 @@ with open("gamefiles\\output\\SLPS_018.19", mode="r+b") as newf, \
     #write "level increased" fix
     newf.seek(0xcac30)
     newf.write(lf2.read())
+    #remove N character from scenario loading screen
+    newf.seek(0x97058)
+    newf.write(b'\x00')
 
 #disables the naming screen
 with open("gamefiles\\output\\SCEN.DAT", mode="rb") as f, open("gamefiles\\output\\SCEN.DAT", mode="r+b") as newf:
