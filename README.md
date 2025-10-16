@@ -1,5 +1,12 @@
 # HOW IT'S GOING
 
+![intro quiz](https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/quiz.gif)
+
+![save and load screen](https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/saveload.png)
+
+![level up screen](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/levelup.png)
+
+![https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/battlemenu.png](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/battlemenu.png)
 
 # TODO
 
