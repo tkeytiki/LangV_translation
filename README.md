@@ -1,3 +1,6 @@
+# HOW IT'S GOING
+
+
 # TODO
 
 - ~~Create English character table~~
@@ -11,6 +14,8 @@
 - ~~Figure out how to skip name screen~~
 - ~~Does the B8 char actually work as intended? Nope...~~
 - ~~Finishing repointing script~~
+- ~~ASM hack the level up screen because the strings are dumb~~
+- ~~Fix Load screen formatting and get rid of that N~~
 - Finish script to repoint system files
 - Actually translate everything
 - Create a patch!
