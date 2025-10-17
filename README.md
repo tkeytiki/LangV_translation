@@ -23,9 +23,21 @@
 - ~~Finishing repointing script~~
 - ~~ASM hack the level up screen because the strings are dumb~~
 - ~~Fix Load screen formatting and get rid of that N~~
+- Put in the rest of the item icons
 - Finish script to repoint system files
 - Actually translate everything
 - Create a patch!
+
+# completed translations
+- Intro Quiz
+- Save/load screen and memory card related text
+- Title screen and all sub-menus
+- Battle preparation menus and unit select menu
+- Level up text
+
+## currently in progress
+- Scenario 1
+- Class names, items, descriptions, etc
 
 # project contents
 
