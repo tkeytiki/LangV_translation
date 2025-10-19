@@ -65,6 +65,7 @@ The font is at the very beginning of the **SYSTEM.BIN** file. Since there are in
 
 ### menu text, etc
 This is all also located in the **SYSTEM.BIN** file. The master pointer table that points to other pointer tables (which are followed by lists of text strings) is located at **0x8010**.
+>The offsets in the sub-pointer tables are multiplied by 2 before being added to the base offset
 
 ### scripts
 All pointers for scenario data blocks are 8 bytes long each and located at the very beginning of the **SCEN.DAT** file. When repointing these they MUST be repointed to 0x800 byte aligned addresses or the game will hang.
