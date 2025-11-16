@@ -13,7 +13,7 @@ end_of_data = 0x179ac
 
 blocks = [] #each block contains a pointer table and the strings that the pointer table points to
 num_translated_blocks = len(glob.glob("engscript\\system\\*.txt"))
-
+#num_translated_blocks = 12
 def btoi(bytes):
     return int.from_bytes(bytes, byteorder="little")
 def itob(num):
@@ -32,27 +32,37 @@ with open("gamefiles\\input\\SYSTEM.BIN", mode="rb") as o:
 #create block objects from translation files
 #will need to have some if statement for when it gets to the 000000 111111 222222 weirdo "offsets"
 i = 0
-while i < num_translated_blocks:
-    try:
-        with open(f"engscript\\system\\system{i}.txt", mode="r") as s:
-            l = s.readline()
-            blocks.append(sb.Block())
+system14 = b''
 
-            while l:
-                blocks[i].add_line(etoh(l))
-                print(l)
-                print(etoh(l))
+while i < num_translated_blocks:
+
+    try:
+        #exception for the non-text data without a pointer table in system14.txt
+        if i == 14:
+            with open("engscript\\system\\system14.txt", mode="rb") as f:
+                blocks.append(sb.Block())
+                system14 = f.read()
+        else:
+            with open(f"engscript\\system\\system{i}.txt", mode="r") as s:
                 l = s.readline()
-            blocks[i].remove_last_offset()
-            #print(blocks[i].lines)
-            #for x in blocks[i].offsets:
-                #print(x.hex())
+                blocks.append(sb.Block())
+
+                while l:
+                    blocks[i].add_line(etoh(l))
+                    print(l)
+                    print(etoh(l))
+                    l = s.readline()
+                blocks[i].remove_last_offset()
+                #print(blocks[i].lines)
+                #for x in blocks[i].offsets:
+                    #print(x.hex())
 
     except FileNotFoundError as fnf:
         print(str(fnf))
     i += 1
 
 # put back in any untranslated blocks
+'''
 with open("gamefiles\\input\\SYSTEM.BIN", mode="rb") as f:
     while i < len(mp_table)/2 - 1:
         blocks.append(sb.Block())
@@ -71,7 +81,7 @@ with open("gamefiles\\input\\SYSTEM.BIN", mode="rb") as f:
     blocks.append(sb.Block())
     f.seek(btoi(mp_table[i * 2]) + mp_start)
     blocks[i].from_untranslated_block(f.read(), "")
-
+'''
 #for block in blocks:
 #    block.print()
 
@@ -84,13 +94,19 @@ offset = offset + blocks[i].lines_len
 new_mp_table.append(itob(offset))
 i += 1
 
-while i < len(blocks) - 1:
+while i < len(blocks):
 
-    offset = offset + blocks[i].offset_table_len
-    new_mp_table.append(itob(offset))
-    offset = offset + blocks[i].lines_len
-    new_mp_table.append(itob(offset))
+    if i == 14:
+        offset = offset + len(system14)
+        new_mp_table.append(itob(offset))
+    else:
+        offset = offset + blocks[i].offset_table_len
+        new_mp_table.append(itob(offset))
+        offset = offset + blocks[i].lines_len
+        new_mp_table.append(itob(offset))
     i += 1
+
+new_mp_table.pop()
 
 if len(mp_table) == len(new_mp_table): print("yep")
 
@@ -103,11 +119,16 @@ with open("gamefiles\\output\\SYSTEM.BIN", mode="rb+") as s:
     s.seek(mp_start)
     for pointer in new_mp_table:
         s.write(pointer)
-    for block in blocks:
-        block.print()
-        for offset in block.offsets:
-            s.write(offset)
-        s.write(bytearray.fromhex(block.lines))
+    i = 0
+    while i < len(blocks):
+        blocks[i].print()
+        if i == 14:
+            s.write(system14)
+        else:
+            for offset in blocks[i].offsets:
+                s.write(offset)
+            s.write(bytearray.fromhex(blocks[i].lines))
+        i += 1
 
 #write everything to new SYSTEM.BIN
 #with open as ns, open old as o
