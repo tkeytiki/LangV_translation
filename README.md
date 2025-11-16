@@ -34,10 +34,16 @@
 - Title screen and all sub-menus
 - Battle preparation menus and unit select menu
 - Level up text
+- Class names and unit types
+- Troop names, descriptions
+- Item names, descriptions
+- Summon names, descriptions
+- Spell names, descriptions
+- Tooltips
 
 ## currently in progress
 - Scenario 1
-- Class names, items, descriptions, etc
+- Tutorial
 
 # project contents
 
