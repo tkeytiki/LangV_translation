@@ -2,13 +2,13 @@
 
 ![intro quiz](https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/quiz.gif)
 
-![https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/shop.png](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/battlemenu.png)
+![https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/shop.png](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/shop.png)
 
 ![save and load screen](https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/saveload.png)
 
 ![level up screen](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/levelup.png)
 
-![https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/lambdamenu.png](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/battlemenu.png)
+![https://github.com/tkeytiki/LangV_translation/blob/master/progress%20images/lambdamenu.png](https://raw.githubusercontent.com/tkeytiki/LangV_translation/refs/heads/master/progress%20images/lambdamenu.png)
 
 
 # TODO
