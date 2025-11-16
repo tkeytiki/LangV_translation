@@ -41,6 +41,8 @@
 - Spell names, descriptions
 - Tooltips
 
+Some UI text is probably still weird because without context I wasn't sure how to translate it and I haven't yet come across it in the actual game yet... will be fixed in time
+
 ## currently in progress
 - Scenario 1
 - Tutorial
