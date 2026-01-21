@@ -113,10 +113,10 @@ The scripts are also stored in **SCEN2.DAT**, which we theorize contains hard mo
     - 0x04: beginning of offsets, each pointer is stored in 2 bytes
   - **2490:** the script begins
 - **Scene 1:**
-    - **pointer table:** ee46
+    - **pointer table:** EE7C
     - **script address:** ef76 
 - **Scene 2:** 
-    - **pointer table:** 32ab8
+    - **pointer table:** 32ab8 
     - **script address:** 32bca 
 - **Scene 3:** 
     - **script address:** 4e940 
