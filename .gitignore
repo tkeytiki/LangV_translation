@@ -1,6 +1,5 @@
 .idea/*
 venv/*
-hexscript/*
 gamefiles/output/*
 font/font.bin
 /script extracts/
