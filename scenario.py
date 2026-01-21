@@ -12,7 +12,7 @@ class Scenario:
             t = origin.read(4)
     num_scenarios = len(pointers)
     script_pointers = [0]*num_scenarios
-    script_pointers[0] = 0x22f4
+    script_pointers[0],script_pointers[1] = 0x22f4, 0xee7c
 
     def __init__(self, scenario_number):
         self.scenario_number = scenario_number
@@ -38,9 +38,11 @@ class Scenario:
                 if self.scenario_number < Scenario.num_scenarios - 1:
                     self.data_len = Scenario.pointers[self.scenario_number +1] - Scenario.pointers[self.scenario_number]
                     self.data = origin.read(self.data_len)
+                    self.data = bytearray(self.data)
                 else:
                     self.data = origin.read()
                     self.data_len = len(self.data)
+                    self.data = bytearray(self.data)
 
     def add_script(self, script):
         self.script = script
