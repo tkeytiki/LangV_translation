@@ -9,7 +9,7 @@ twochardict = {} #everything else
 jpnsdict = {} #to find the hex value of the bytes following 00FB
 controlcodes = {"(F3FF)": "F3FF", "(F4FF)": "F4FF", "(FAFF)": "FAFF", "(FDFF)": "FDFF", "(FEFF)": "FEFF",
                 "(FFFF)": "FFFF", "(00FB)": "00FB", "(FCFF)": "FCFF", "(F5FF)": "F5FF", "(00F6)": "00F6",
-                "(F8FF)": "F8FF", "(F9FF)": "F9FF", "(32FE)": "32FE", "(28FE)": "28FE"}
+                "(F8FF)": "F8FF", "(F9FF)": "F9FF", "(32FE)": "32FE", "(28FE)": "28FE", "(F6FF)": "F6FF"}
 
 singlefontdict = {}
 
