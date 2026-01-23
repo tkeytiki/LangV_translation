@@ -13,12 +13,12 @@ scenario_list = []
 for i in range(len(dr.Scenario.pointers)):
     scenario_list.append(dr.Scenario(i))
 
-num_translated_scenes = len(glob.glob("engscript\\scen\\*.txt"))
+num_translated_scenes = 2 #len(glob.glob("engscript\\scen\\*.txt"))
 
 try:
     Path("gamefiles\\output\\SCEN.DAT").unlink()
 except FileNotFoundError as ex:
-    print(ex)
+    print("OKAY: cannot delete output\\SCEN.DAT as it does not exist. Carrying on...")
 except PermissionError as ex:
     print(ex)
 
@@ -31,8 +31,9 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin:
             origin.seek(scenario.script_pointer)
             original_script_len = int.from_bytes(origin.read(OFSP), byteorder='little')
             new_script_len = 4  # accounts for the 4 bytes holding the script length
-
+            print(original_script_len)
             trans = eng.readline()
+            print(trans)
             offset = int.from_bytes(origin.read(2), byteorder='little')
             first_offset = offset
             offset_addr = origin.tell()
@@ -81,6 +82,7 @@ with open("gamefiles\\input\\SCEN.DAT", mode="rb") as origin:
             #get the data that comes after the script
             post_script_offset = scenario.script_pointer + original_script_len
             origin.seek(post_script_offset)
+            #print(post_script_offset)
             post_script_data = origin.read(dr.Scenario.pointers[scenario.scenario_number + 1] - post_script_offset)
 
             offset_table = new_script_len.hex() + offset_table
