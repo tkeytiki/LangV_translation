@@ -34,6 +34,8 @@ with open("gamefiles\\output\\SLPS_018.19", mode="r+b") as newf, \
         open("asm\\levelfunction2.bin", mode="rb") as lf2:
     newf.seek(beight_assign)
     newf.write(b'\xb8\x00\x02\x24') # b8 00 02 24 <-- instruction to load b8
+    #experimenting with diff characters
+    #newf.write(b'\x15\x00\x02\x24')
     newf.seek(altered_func_addr)
     newf.write(af.read())
     #text box etc
@@ -99,8 +101,9 @@ with open("gamefiles\\output\\SLPS_018.19", mode="r+b") as newf, \
     newf.write(b'\x00')
 
 #disables the naming screen
-with open("gamefiles\\output\\SCEN.DAT", mode="rb") as f, open("gamefiles\\output\\SCEN.DAT", mode="r+b") as newf:
+#commented out for now because the address is constantly changing due to repointing as we add more translated scenes
+'''with open("gamefiles\\output\\SCEN.DAT", mode="rb") as f, open("gamefiles\\output\\SCEN.DAT", mode="r+b") as newf:
     newf.write(f.read())
     newf.seek(name_screen_args)
     new_args = bytearray(12)
-    newf.write(new_args)
+    newf.write(new_args)'''
